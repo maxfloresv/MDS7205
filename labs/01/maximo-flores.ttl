@@ -1,0 +1,27 @@
+@prefix entity: <http://maxfloresv.cl/entity/> .
+@prefix ontology: <http://maxfloresv.cl/ontology/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix wd: <https://www.wikidata.org/entity/> .
+
+# Pregunta 1
+entity:me a ontology:Student ;
+  foaf:firstName "Máximo" ;
+  foaf:lastName "Flores" ;
+  foaf:mbox "mflores@dcc.uchile.cl" ;
+  foaf:img <https://avatars.githubusercontent.com/u/45862114> ;
+  foaf:homepage <https://www.linkedin.com/in/maxfloresv/>;
+  foaf:knows <http://ncautivob.cl/entity/>, <http://www.hayter.cl/> ;
+  ontology:studiesIn wd:Q232141 .
+
+# Pregunta 2
+ontology:Student rdfs:subClassOf foaf:Person ;
+  rdfs:label "Student"@en ;
+  rdfs:comment "Represents a student"@en .
+
+ontology:studiesIn a rdf:Property ;
+  rdfs:label "Studies in"@en ;
+  rdfs:comment "Indicates the place where a student does study"@en ;
+  rdfs:domain ontology:Student ;
+  rdfs:range foaf:Organization .
