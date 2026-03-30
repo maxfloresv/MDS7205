@@ -3,13 +3,12 @@
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix wd: <https://www.wikidata.org/entity/> .
+@prefix wd: <http://www.wikidata.org/entity/> .
 
 # Pregunta 1
 entity:me a ontology:Student ;
-  foaf:firstName "Máximo" ;
-  foaf:lastName "Flores" ;
-  foaf:mbox "mflores@dcc.uchile.cl" ;
+  foaf:name "Máximo Diego Flores Valenzuela" ;
+  foaf:mbox <mailto:mflores@dcc.uchile.cl> ;
   foaf:img <https://avatars.githubusercontent.com/u/45862114> ;
   foaf:homepage <https://www.linkedin.com/in/maxfloresv/>;
   foaf:knows <http://ncautivob.cl/entity/>, <http://www.hayter.cl/> ;
