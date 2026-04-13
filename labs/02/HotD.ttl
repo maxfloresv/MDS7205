@@ -1,0 +1,84 @@
+@prefix : <http://example.org/hotd/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+
+# Houses
+:HouseTargaryen a :House ;
+    foaf:name "House Targaryen" .
+
+:HouseVelaryon a :House ;
+    foaf:name "House Velaryon" .
+
+:HouseHightower a :House ;
+    foaf:name "House Hightower" .
+
+# Characters
+:RhaenyraTargaryen a :Person ;
+    foaf:name "Rhaenyra Targaryen" ;
+    :memberOf :HouseTargaryen .
+
+:DaemonTargaryen a :Person ;
+    foaf:name "Daemon Targaryen" ;
+    :memberOf :HouseTargaryen .
+
+:LaenorVelaryon a :Person ;
+    foaf:name "Laenor Velaryon" ;
+    :memberOf :HouseVelaryon .
+
+:AlicentHightower a :Person ;
+    foaf:name "Alicent Hightower" ;
+    :memberOf :HouseHightower .
+
+:ViserysTargaryen a :Person ;
+    foaf:name "Viserys I Targaryen" ;
+    :memberOf :HouseTargaryen .
+
+:AegonTargaryen a :Person ;
+    foaf:name "Aegon II Targaryen" ;
+    :memberOf :HouseTargaryen .
+
+:AemondTargaryen a :Person ;
+    foaf:name "Aemond Targaryen" ;
+    :memberOf :HouseTargaryen .
+
+:JacaerysVelaryon a :Person ;
+    foaf:name "Jacaerys Velaryon" ;
+    :memberOf :HouseTargaryen .
+
+:LucerysVelaryon a :Person ;
+    foaf:name "Lucerys Velaryon" ;
+    :memberOf :HouseTargaryen .
+
+:BaelaTargaryen a :Person ;
+    foaf:name "Baela Targaryen" ;
+    :memberOf :HouseTargaryen .
+
+:RhaenaTargaryen a :Person ;
+    foaf:name "Rhaena Targaryen" ;
+    :memberOf :HouseTargaryen .
+
+# Marriages
+:RhaenyraTargaryen :hasSpouse :LaenorVelaryon .
+:RhaenyraTargaryen :hasSpouse :DaemonTargaryen .
+:DaemonTargaryen :hasSpouse :LaenaVelaryon .
+:DaemonTargaryen :hasSpouse :RheaRoyce .
+:ViserysTargaryen :hasSpouse :AemmaArryn .
+:ViserysTargaryen :hasSpouse :AlicentHightower .
+
+# Engagements
+:JacaerysVelaryon :engagedTo :BaelaTargaryen .
+:LucerysVelaryon :engagedTo :RhaenaTargaryen .
+
+# Parent-Child
+:BaelorTargaryen :hasChild :ViserysTargaryen .
+:BaelorTargaryen :hasChild :DaemonTargaryen .
+
+:ViserysTargaryen :hasChild :RhaenyraTargaryen .
+:ViserysTargaryen :hasChild :AegonTargaryen .
+:ViserysTargaryen :hasChild :AemondTargaryen .
+:AlicentHightower :hasChild :AegonTargaryen .
+:AlicentHightower :hasChild :AemondTargaryen .
+
+:RhaenyraTargaryen :hasChild :JacaerysVelaryon .
+:RhaenyraTargaryen :hasChild :LucerysVelaryon .
+:DaemonTargaryen :hasChild :BaelaTargaryen .
+:DaemonTargaryen :hasChild :RhaenaTargaryen .

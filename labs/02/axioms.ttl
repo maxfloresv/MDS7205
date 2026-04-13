@@ -1,0 +1,84 @@
+@prefix : <http://example.org/hotd/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+:hasSpouse a owl:SymmetricProperty .
+:engagedTo a owl:SymmetricProperty .
+
+:hasParent a owl:ObjectProperty ;
+    owl:inverseOf :hasChild .
+
+:hasChild rdfs:subPropertyOf :ancestorOf .
+:ancestorOf a owl:TransitiveProperty .
+
+:hasSibling a owl:ObjectProperty, owl:IrreflexiveProperty, owl:SymmetricProperty .
+
+:hasUncleAunt a owl:ObjectProperty ;
+    owl:propertyChainAxiom (
+        :hasParent
+        :hasSibling
+    ) .
+
+# Por OWA, se DEBEN declarar los hermanos de las personas definidas para inferir.
+:hasCousin a owl:ObjectProperty ;
+    owl:propertyChainAxiom (
+        :hasUncleAunt
+        :hasChild
+    ) .
+
+:HouseTargaryen a owl:NamedIndividual .
+:HouseVelaryon a owl:NamedIndividual .
+:HouseCeltigar a owl:NamedIndividual .
+
+:Targaryen rdfs:subClassOf :Person ;
+    owl:equivalentClass [
+        a owl:Restriction ;
+        owl:onProperty :memberOf ;
+        owl:hasValue :HouseTargaryen 
+    ] .
+
+:Valyrian rdfs:subClassOf :Person ;
+    owl:equivalentClass [
+        a owl:Restriction ;
+        owl:onProperty :memberOf ;
+        owl:someValuesFrom [ 
+            a owl:Class ;
+            owl:oneOf (
+                :HouseTargaryen
+                :HouseVelaryon
+                :HouseCeltigar
+            )
+        ]
+    ] .
+
+:Person rdfs:subClassOf [
+    a owl:Restriction ;
+    owl:onProperty :memberOf ;
+    owl:cardinality 1
+] .
+
+:NonValyrianHouse a owl:Class ;
+    owl:disjointWith [ 
+        a owl:Class ; 
+        owl:oneOf (
+            :HouseTargaryen 
+            :HouseVelaryon 
+            :HouseCeltigar
+        ) 
+    ] .
+
+# Esta lista DEBE ser extendida regularmente para limitar el OWA.
+:HouseHightower a owl:NamedIndividual, :NonValyrianHouse .
+
+:Andal owl:equivalentClass [
+    a owl:Restriction ;
+    owl:onProperty :memberOf ;
+    owl:someValuesFrom :NonValyrianHouse
+] .
+
+:OnlyMarriesValyrians a owl:Class ;
+    rdfs:subClassOf [
+        a owl:Restriction ;
+        owl:onProperty :hasSpouse ;
+        owl:allValuesFrom :Valyrian
+    ] .
