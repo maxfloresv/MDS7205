@@ -1,0 +1,94 @@
+# Shapes 1
+@prefix ex: <http://example.org#> .
+@prefix dash: <http://datashapes.org/dash#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+
+ex:PersonShape a sh:NodeShape ;
+    sh:targetClass foaf:Person ;
+    sh:and (
+        [sh:property [
+            sh:path foaf:birthday ;
+            sh:datatype xsd:date ;
+        ]] 
+        [sh:property [
+            sh:path [
+                sh:alternativePath ( 
+                    foaf:givenName 
+                    foaf:name 
+                    foaf:familyName 
+                )
+            ] ;
+            sh:datatype xsd:string ;
+        ]]
+    ) .
+
+# Shapes 2
+@prefix nobel: <http://data.nobelprize.org/terms/> .
+@prefix dbo: <http://dbpedia.org/ontology/> .
+@prefix dbp: <http://dbpedia.org/property/> .
+
+ex:LaureateShape a sh:NodeShape ;
+    sh:targetClass nobel:Laureate ;
+    sh:and (
+        [sh:property [
+            sh:path dbo:affiliation ;
+            sh:minCount 1 ;
+            sh:qualifiedValueShape [
+                sh:class dbo:University ;
+            ] ;
+            sh:qualifiedMinCount 1 ;
+            sh:qualifiedMaxCount 1 ;
+        ]]
+        # P5: ¿Esto se valida bien si alguna de las dos propiedades no está definida? Explique.
+        # La validación es incorrecta. porque si alguna de las dos propiedades no existe, asume que la 
+        # comparación es falsa. No tenemos suficiente información para poder afirmar eso, pero se debe
+        # a que SHACL sigue CWA y no OWA.
+        [sh:or (
+            [sh:and (
+                sh:property [ sh:path dbp:dateOfBirth ; sh:minCount 1 ]
+                sh:property [ sh:path foaf:birthday ; sh:maxCount 0 ]
+            )]
+            [sh:and (
+                sh:property [ sh:path dbp:dateOfBirth ; sh:maxCount 0 ]
+                sh:property [ sh:path foaf:birthday ; sh:minCount 1 ]
+            )]
+            [sh:property [
+                sh:path dbp:dateOfBirth ;
+                sh:equals foaf:birthday ;
+            ]]
+        )]
+    ) .
+
+# Shapes 3
+nobel:LaureateShape a sh:NodeShape ;
+    sh:targetClass nobel:Laureate ;
+    sh:property [
+        sh:path [
+            sh:alternativePath ( 
+                foaf:name 
+                foaf:givenName 
+                foaf:familyName 
+            );
+        ] ;
+        sh:pattern "^([^0-9_]|&#[0-9]+;){2,}$" ;
+        sh:message "Al menos dos caracteres (no guiones bajos ni números), con excepción para problemas de codificación (#[0-9]+)."@es ;
+    ] .
+
+nobel:LaureateAwardShape a sh:NodeShape ;
+    sh:targetClass nobel:LaureateAward ;
+    sh:property [
+        sh:path nobel:share ;
+        sh:in ( "1" "2" "3" "4" )
+    ] .
+
+nobel:NobelPrizeShape a sh:NodeShape ;
+    sh:targetClass nobel:NobelPrize ;
+    sh:property [
+        sh:path nobel:motivation ;
+        sh:minCount 1 ;
+        sh:datatype xsd:string ;
+        sh:minLength 10 ;
+        sh:uniqueLang true ;
+    ] .
